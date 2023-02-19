@@ -14,6 +14,13 @@ function App() {
   const [noteContent, setNoteContent] = useState('');
   const [notes, setNotes] = useState<Note[]>([]);
 
+  const handleNoteDelete = (noteId: number) => {
+    const noteToDelete = notes.find((note) => note.id === noteId);
+    if (noteToDelete) {
+      setNotes(notes.filter((note) => note.id !== noteId));
+    }
+  };
+
   return (
     <div className="App">
       <div className="NotesSection">
@@ -21,8 +28,11 @@ function App() {
         <ul>
           {notes.map((note) => (
             <li key={note.id}>
-              <h4>{note.title}</h4>
-              <p>{note.content}</p>
+              <span>{note.title} - </span>
+              <span>{note.content}</span>
+              <button type="button" onClick={() => handleNoteDelete(note.id)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>
