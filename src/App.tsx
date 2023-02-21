@@ -13,11 +13,21 @@ function App() {
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
   const [notes, setNotes] = useState<Note[]>([]);
+  const [searchNote, setSearchNote] = useState('');
 
   const handleNoteDelete = (noteId: number) => {
     const noteToDelete = notes.find((note) => note.id === noteId);
     if (noteToDelete) {
       setNotes(notes.filter((note) => note.id !== noteId));
+    }
+  };
+
+  const handleNoteSearch = (noteTitleToSearch: string) => {
+    const noteToSearch = notes.find((note) => note.title === noteTitleToSearch);
+    if (noteToSearch) {
+      alert(`Note found: ${noteToSearch.title} - ${noteToSearch.content}`);
+    } else {
+      alert('Note not found');
     }
   };
 
@@ -72,6 +82,29 @@ function App() {
             }}
           />
           <button type="submit">Create</button>
+        </form>
+      </div>
+      <div className="SearchNoteSection">
+        <h3>Search for a note</h3>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleNoteSearch(searchNote);
+            setSearchNote('');
+          }}
+        >
+          <label htmlFor="search-note">Search:</label>
+          <input
+            type="text"
+            id="search-note"
+            placeholder="Search for a note"
+            required
+            value={searchNote}
+            onChange={(event) => {
+              setSearchNote(event.target.value);
+            }}
+          />
+          <button type="submit">Search</button>
         </form>
       </div>
     </div>
